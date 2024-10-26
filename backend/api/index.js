@@ -16,15 +16,24 @@ app.post('/sendMessage', async (req, res) => {
     }
 
     try {
-        const response = await axios.post(`https://api.telegram.org/bot${botToken}/sendMessage`, {
-            chat_id: chatId,
-            text: message,
-        });
+        const response = await axios.post(
+            `https://api.telegram.org/bot${botToken}/sendMessage`,
+            new URLSearchParams({
+                chat_id: chatId,
+                text: message,
+            }),
+            {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                },
+            }
+        );
         res.json(response.data);
     } catch (error) {
-        console.error('Error sending message:', error.message);
+        console.error('Error sending message:', error.response ? error.response.data : error.message);
         res.status(500).send('Error sending message');
     }
+    
 });
 
 module.exports = app; // Експортуйте додаток для використання в Vercel
