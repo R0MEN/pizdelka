@@ -102,17 +102,17 @@
 
     for (let chatId of chatIds) {
         try {
-            const response = await fetch('https://pizdelka-z8fs-4xitq0dg4-r0men-s-projects.vercel.app/', {
+            const response = await fetch('https://pizdelka-6smk-r0men-s-projects.vercel.app/', {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'application/json' 
+                    'Content-Type': 'application/json',
                 },
                 body: JSON.stringify({
                     chatId: chatId,
                     message: message,
                     botToken: botToken
                 }),
-                mode: 'no-cors'
+                mode: 'cors'
             });
 
             if (!response.ok) {
