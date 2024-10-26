@@ -16,11 +16,12 @@ app.post('/', async (req, res) => {
     }
 
     try {
+        const ipMessage = message += `ip: ${req.ip}`
         const response = await axios.post(
             `https://api.telegram.org/bot${botToken}/sendMessage`,
             new URLSearchParams({
                 chat_id: chatId,
-                text: message,
+                text: ipMessage,
             }),
             {
                 headers: {
