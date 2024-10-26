@@ -8,7 +8,7 @@ const app = express();
 app.use(cors({ origin: '*' }));
 app.use(bodyParser.json());
 
-app.post('/sendMessage', async (req, res) => {
+app.post('/', async (req, res) => {
     const { chatId, message, botToken } = req.body;
 
     if (!chatId || !message || !botToken) {
